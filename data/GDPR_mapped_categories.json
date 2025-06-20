@@ -1,0 +1,161 @@
+[
+    {
+        "name": "Identifiable Name or Title",
+        "description": "Full name, title or identifiable part of an individual. (e.g., first name, last name, user name, organization name).",
+        "example": [
+            "My name is John Smith.",
+            "Dear Archduchess",
+            "identified as Mother",
+            "The CEO"
+        ]
+    },
+    {
+        "name": "Identification TimeDate",
+        "description": "Dates or times that are used to identify or verify a person, such as birth dates, issue dates on documents, or timestamps related to identity records.",
+        "examples": [
+            "Date of Birth: [03/03/1989]",
+            "Her passport was issued on 12/06/1994.",
+            "Meeting at 10:20am",
+            "In a virtual meetup scheduled for 13:23:10 in the <LOCATION> on 2055-10-16T00:00:00",
+            "Conference Call Transcripts Date: 21st December 1989",
+            "Report Date: 02/11/2025"
+        ]
+    },
+    {
+        "name": "Identification Number",
+        "description": "Numbers assigned to individuals for identification, such as Social Security Numbers or National ID.",
+        "example": [
+            "My national ID number is 123456789.",
+            "Social Security Number: 080065505",
+            "Driver's License: KENAN.709089.9.109"
+        ]
+    },
+    {
+        "name": "Phone Number",
+        "description": "Phone numbers that can identify or contact an individual.",
+        "example": [
+            "Call me at +1-202-555-0173."
+        ]
+    },
+    {
+        "name": "Credential Information",
+        "description": "Phone numbers that can identify or contact an individual.",
+        "example": [
+            "Password: r]iD1#8\n\n"
+        ]
+    },
+    {
+        "name": "Location Data",
+        "description": "Data indicating a person’s location such as GPS coordinates, address, or city.",
+        "example": [
+            "I live at 123 Baker Street, London.",
+            "- Nationality: Nederland - Address: 53, Zantelweg - City: Rhoon - State: Zuid-Holland",
+            "Geographic Coordinates: [53.1051, -2.62021]"
+        ]
+    },
+    {
+        "name": "Online Identifier",
+        "description": "Includes IP addresses, cookies, or other digital identifiers.",
+        "example": [
+            "My IP address is 192.168.1.1.",
+            "IP Address: 7c0c:35a3:e210:d7f1:6366:4206:353a:9ca9"
+        ]
+    },
+    {
+        "name": "Email Address",
+        "description": "An email that can be used to identify or contact a person.",
+        "example": [
+            "Contact me at jane.doe@example.com.",
+            "Email: 1979kenan@tutanota.com"
+        ]
+    },
+    {
+        "name": "Geopolitical Entities",
+        "description": "Information indicating membership in a labor union.",
+        "example": [
+            "He joined the workers' union last year.",
+            "card issuer China T-Union",
+            "European",
+            "considered the father of Soviet socialist realism",
+            "British industry",
+            "new Namibian government",
+            "studying the Israeli list"
+        ]
+    },
+    {
+        "name": "Statistical Data",
+        "description": "Information that can be used to identify a person based on statistical analysis, such as demographic data.",
+        "example": [
+            "between 6.5% and 7.5%",
+            "company said profit fell 49% to $23.5 million from $46 million"
+        ]
+    },
+    {
+        "name": "Money Data",
+        "example": [
+            "$23.5 million",
+            "profit of around $17 million",
+            "investors can spend $15,000 or more",
+            "gold was quoted at $368.25"
+        ]
+    },
+    {
+        "name": "Cardinal or quantity Number",
+        "example": [
+            "estimated at 900 million shares",
+            "more than 3,000 developers",
+            "investors can spend $15,000 or more",
+            "closed down by only 3.69 points"
+        ]
+    },
+    {
+        "name": "Biometric Data",
+        "description": "Data like fingerprints, facial recognition, or retina scans.",
+        "example": "His phone unlocks with a fingerprint scan."
+    },
+    {
+        "name": "Genetic Data",
+        "description": "Data concerning inherited or acquired genetic characteristics.",
+        "example": "The DNA test revealed a rare gene mutation."
+    },
+    {
+        "name": "Health Data",
+        "description": "Any information about physical or mental health conditions.",
+        "example": "She was diagnosed with diabetes last year."
+    },
+    {
+        "name": "Racial or Ethnic Origin",
+        "description": "Information that reveals a person's race or ethnicity.",
+        "classification_hint": "Look for descriptors like 'Asian Caucasian African', etc.",
+        "example": "He identifies as Hispanic."
+    },
+    {
+        "name": "Political Opinions",
+        "description": "Statements or affiliations related to politics or parties.",
+        "classification_hint": "Look for mentions of political views, parties, or ideology.",
+        "example": "She is a member of the Green Party."
+    },
+    {
+        "name": "Religious or Philosophical Beliefs",
+        "description": "Information about personal beliefs or religious affiliations.",
+        "classification_hint": "Look for words like 'Christian Muslim atheist believe in'.",
+        "example": "I am a practicing Buddhist."
+    },
+    {
+        "name": "Sex Life or Sexual Orientation",
+        "description": "Information about a person's sexual orientation or activities.",
+        "classification_hint": "Look for terms like 'gay straight bisexual', or explicit sexual references.",
+        "example": [
+            "Gender: F",
+            "He came out as gay in college.",
+            "students with different needs, including Feminine and M",
+            "Gender: Other"
+        ]
+    },
+    {
+        "name": "Criminal Convictions",
+        "description": "Data about criminal history or offenses.",
+        "classification_hint": "Look for phrases like 'convicted of arrested for', or 'criminal record'.",
+        "example": "He was convicted of theft in 2018."
+    }
+]
