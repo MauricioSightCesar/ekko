@@ -1,161 +1,212 @@
 [
     {
         "name": "Identifiable Name or Title",
-        "description": "Full name, title or identifiable part of an individual. (e.g., first name, last name, user name, organization name).",
-        "example": [
-            "My name is John Smith.",
-            "Dear Archduchess",
-            "identified as Mother",
-            "The CEO"
+        "description": "Full name, title, or identifiable part of an individual (e.g., first name, last name, user name, title).",
+        "examples": [
+            "Hi John Smith, thanks for your inquiry.",
+            "The CEO has approved the request.",
+            "Hello, my name is Peter Jennings.",
+            "Regards, Dr. Emily White",
+            "User jane.s.doe logged in at 09:04."
         ]
     },
     {
         "name": "Identification TimeDate",
-        "description": "Dates or times that are used to identify or verify a person, such as birth dates, issue dates on documents, or timestamps related to identity records.",
+        "description": "Dates or times that identify or verify a person, including birth dates, document issue dates, or identity-related timestamps.",
         "examples": [
-            "Date of Birth: [03/03/1989]",
+            "Date of Birth: 03/03/1989",
             "Her passport was issued on 12/06/1994.",
-            "Meeting at 10:20am",
-            "In a virtual meetup scheduled for 13:23:10 in the <LOCATION> on 2055-10-16T00:00:00",
-            "Conference Call Transcripts Date: 21st December 1989",
-            "Report Date: 02/11/2025"
+            "Meeting scheduled for 10:20am on March 20.", 
+            "Account created: 2022-09-01T14:42:30Z",
+            "Signed on 2023-07-10"
         ]
     },
     {
         "name": "Identification Number",
-        "description": "Numbers assigned to individuals for identification, such as Social Security Numbers or National ID.",
-        "example": [
+        "description": "Unique identifiers assigned to individuals such as Social Security numbers, passport numbers, or national IDs.",
+        "examples": [
             "My national ID number is 123456789.",
-            "Social Security Number: 080065505",
-            "Driver's License: KENAN.709089.9.109"
+            "Social Security Number: 080-65-5050",
+            "Driver's License: KENAN.709089.9.109",
+            "Client ID: 10029823",
+            "Taxpayer Identification Number: 102-45-7890",
+
+            "Call me at +1-202-555-0173.",
+            "Phone: (020) 7946 0820",
+            "Mobile: +44 7700 900077",
+            "Customer support: 555-431-8000",
+            "Emergency contact: 06 12 34 56 78"
         ]
     },
     {
         "name": "Phone Number",
-        "description": "Phone numbers that can identify or contact an individual.",
-        "example": [
-            "Call me at +1-202-555-0173."
+        "description": "Any phone number used to identify or contact an individual.",
+        "examples": [
         ]
     },
     {
         "name": "Credential Information",
-        "description": "Phone numbers that can identify or contact an individual.",
-        "example": [
-            "Password: r]iD1#8\n\n"
+        "description": "Information used to access systems or accounts, such as passwords, PINs, or security questions.",
+        "examples": [
+            "Password: r]iD1#8",
+            "PIN: 8421",
+            "Temp pass: SkyFall2023!",
+            "Security question: Mother's maiden name?",
+            "Login credentials were compromised"
         ]
     },
     {
         "name": "Location Data",
-        "description": "Data indicating a person’s location such as GPS coordinates, address, or city.",
-        "example": [
+        "description": "Information about a person’s location such as address, GPS coordinates, or city of residence.",
+        "examples": [
             "I live at 123 Baker Street, London.",
-            "- Nationality: Nederland - Address: 53, Zantelweg - City: Rhoon - State: Zuid-Holland",
-            "Geographic Coordinates: [53.1051, -2.62021]"
+            "Shipping to: 10 Downing Street, London",
+            "Current location: Berlin, Germany",
+            "Property address: 1452 Grand Ave, Brooklyn, NY",
+            "GPS coordinates: [53.1051, -2.62021]"
         ]
     },
     {
         "name": "Online Identifier",
-        "description": "Includes IP addresses, cookies, or other digital identifiers.",
-        "example": [
+        "description": "Digital identifiers like IP addresses, MAC addresses, cookies, or browser/device fingerprints.",
+        "examples": [
             "My IP address is 192.168.1.1.",
-            "IP Address: 7c0c:35a3:e210:d7f1:6366:4206:353a:9ca9"
+            "IP Address: 7c0c:35a3:e210:d7f1:6366:4206:353a:9ca9",
+            "MAC: 00-14-22-01-23-45",
+            "Cookie ID: abcdef1234567890",
+            "Session token: xyz_938457saj"
         ]
     },
     {
         "name": "Email Address",
-        "description": "An email that can be used to identify or contact a person.",
-        "example": [
+        "description": "Email addresses that can be used to identify or contact a person.",
+        "examples": [
             "Contact me at jane.doe@example.com.",
-            "Email: 1979kenan@tutanota.com"
+            "Email: 1979kenan@tutanota.com",
+            "Please CC: support@acme.org",
+            "Reach me at johnny_b@webmail.co.uk",
+            "Mail sent from: finance@bigbank.com"
         ]
-    },
-    {
-        "name": "Geopolitical Entities",
-        "description": "Information indicating membership in a labor union.",
-        "example": [
-            "He joined the workers' union last year.",
-            "card issuer China T-Union",
-            "European",
-            "considered the father of Soviet socialist realism",
-            "British industry",
-            "new Namibian government",
-            "studying the Israeli list"
-        ]
-    },
-    {
-        "name": "Statistical Data",
-        "description": "Information that can be used to identify a person based on statistical analysis, such as demographic data.",
-        "example": [
-            "between 6.5% and 7.5%",
-            "company said profit fell 49% to $23.5 million from $46 million"
-        ]
-    },
-    {
-        "name": "Money Data",
-        "example": [
-            "$23.5 million",
-            "profit of around $17 million",
-            "investors can spend $15,000 or more",
-            "gold was quoted at $368.25"
-        ]
-    },
-    {
-        "name": "Cardinal or quantity Number",
-        "example": [
-            "estimated at 900 million shares",
-            "more than 3,000 developers",
-            "investors can spend $15,000 or more",
-            "closed down by only 3.69 points"
-        ]
-    },
-    {
-        "name": "Biometric Data",
-        "description": "Data like fingerprints, facial recognition, or retina scans.",
-        "example": "His phone unlocks with a fingerprint scan."
-    },
-    {
-        "name": "Genetic Data",
-        "description": "Data concerning inherited or acquired genetic characteristics.",
-        "example": "The DNA test revealed a rare gene mutation."
-    },
-    {
-        "name": "Health Data",
-        "description": "Any information about physical or mental health conditions.",
-        "example": "She was diagnosed with diabetes last year."
-    },
-    {
-        "name": "Racial or Ethnic Origin",
-        "description": "Information that reveals a person's race or ethnicity.",
-        "classification_hint": "Look for descriptors like 'Asian Caucasian African', etc.",
-        "example": "He identifies as Hispanic."
-    },
-    {
-        "name": "Political Opinions",
-        "description": "Statements or affiliations related to politics or parties.",
-        "classification_hint": "Look for mentions of political views, parties, or ideology.",
-        "example": "She is a member of the Green Party."
-    },
-    {
-        "name": "Religious or Philosophical Beliefs",
-        "description": "Information about personal beliefs or religious affiliations.",
-        "classification_hint": "Look for words like 'Christian Muslim atheist believe in'.",
-        "example": "I am a practicing Buddhist."
     },
     {
         "name": "Sex Life or Sexual Orientation",
-        "description": "Information about a person's sexual orientation or activities.",
-        "classification_hint": "Look for terms like 'gay straight bisexual', or explicit sexual references.",
-        "example": [
-            "Gender: F",
-            "He came out as gay in college.",
-            "students with different needs, including Feminine and M",
+        "description": "Information about an individual's sexual orientation or sexual activity.",
+        "examples": [
+            "Gender: M",
+            "Gender: Female",
+            "They identify as bisexual.",
+            "Relationship status: Same-sex partner.",
             "Gender: Other"
         ]
     },
     {
-        "name": "Criminal Convictions",
-        "description": "Data about criminal history or offenses.",
-        "classification_hint": "Look for phrases like 'convicted of arrested for', or 'criminal record'.",
-        "example": "He was convicted of theft in 2018."
+        "name": "Geopolitical Entities",
+        "description": "Information revealing national origin, citizenship, or geopolitical affiliation.",
+        "examples": [
+            "British industry standards apply.",
+            "The new Namibian government has issued a statement.",
+            "He joined the European Workers' Union.",
+            "Studies conducted in the Israeli health system.",
+            "Certified by China T-Union"
+        ]
+    },
+    {
+        "name": "[WARN] Statistical Data",
+        "description": "Numerical or statistical information that may be linked to individuals or groups.",
+        "examples": [
+            "Company said profit fell 49% to $23.5 million.",
+            "Between 6.5% and 7.5% of users reported issues.",
+            "10 out of 100 patients experienced side effects.",
+            "Survey results show 93% satisfaction.",
+            "Approximately 8,000 employees were affected."
+        ]
+    },
+    {
+        "name": "[WARN] Money Data",
+        "description": "Monetary values or financial transactions tied to individuals.",
+        "examples": [
+            "$23.5 million was credited.",
+            "Profit of around $17 million last quarter.",
+            "Investors spent $15,000 or more.",
+            "Balance due: €124.50",
+            "Refund amount: $99.99"
+        ]
+    },
+    {
+        "name": "[DELETE] Cardinal or Quantity Number",
+        "description": "Numerical quantities not necessarily tied to money, such as counts or measurements.",
+        "examples": [
+            "Estimated at 900 million shares.",
+            "More than 3,000 developers participated.",
+            "Closed down by only 3.69 points.",
+            "User has 12 pending tasks.",
+            "Processing time: 45 minutes"
+        ]
+    },
+    {
+        "name": "[NOT FOUND] Genetic Data",
+        "description": "Data relating to inherited or acquired genetic characteristics, often from DNA testing.",
+        "examples": [
+            "The DNA test revealed a rare gene mutation.",
+            "She carries the BRCA1 gene.",
+            "Genetic profile indicates European ancestry.",
+            "Father and child matched on 21 loci.",
+            "Genome sequencing completed on 05/12/2024."
+        ]
+    },
+    {
+        "name": "[NOT FOUND] Health Data",
+        "description": "Information related to an individual's physical or mental health.",
+        "examples": [
+            "She was diagnosed with diabetes last year.",
+            "Medical condition: Hypertension.",
+            "Symptoms include chronic fatigue and migraines.",
+            "Allergy: Penicillin",
+            "He is currently undergoing chemotherapy."
+        ]
+    },
+    {
+        "name": "Racial or Ethnic Origin",
+        "description": "Information that reveals a person's racial or ethnic background.",
+        "examples": [
+            "He identifies as Hispanic.",
+            "Ethnicity: Asian",
+            "African-American heritage",
+            "Caucasian male, 35 years old",
+            "Native American background noted in file"
+        ]
+    },
+    {
+        "name": "[NOT FOUND] Political Opinions",
+        "description": "Statements or information related to political beliefs, party affiliation, or ideology.",
+        "examples": [
+            "She is a member of the Green Party.",
+            "He supports the conservative agenda.",
+            "I voted for the Socialist candidate.",
+            "Affiliated with the Labor Union.",
+            "Participated in a pro-democracy rally."
+        ]
+    },
+    {
+        "name": "[NOT FOUND] Religious or Philosophical Beliefs",
+        "description": "Information about religious affiliation or personal belief systems.",
+        "examples": [
+            "I am a practicing Buddhist.",
+            "As a Christian, he attends church weekly.",
+            "She believes in reincarnation.",
+            "Philosophically aligned with Stoicism.",
+            "Celebrates Islamic religious holidays."
+        ]
+    },
+    {
+        "name": "[NOT FOUND] Criminal Convictions",
+        "description": "Information regarding criminal records, arrests, or legal judgments.",
+        "examples": [
+            "He was convicted of theft in 2018.",
+            "She was arrested for fraud last year.",
+            "His criminal record includes assault.",
+            "Charged with money laundering.",
+            "Pardoned for a non-violent offense."
+        ]
     }
 ]

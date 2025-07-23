@@ -1,0 +1,15 @@
+pandas
+numpy
+torch
+datasets
+
+gliner
+transformers
+sentence-transformers
+scikit-learn
+
+torch 
+torchvision 
+pillow 
+peft
+openpyxl

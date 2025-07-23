@@ -1,0 +1,12 @@
+phase: train
+
+dataset:
+  name: Conll2003
+
+feature:
+  generator: GLiNER
+  labels: ['PERSON_NAME', 'LOCATION', 'ORGANIZATION']
+
+model:
+  name: GLiNER
+  version: urchade/gliner_medium-v2.1
