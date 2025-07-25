@@ -1,21 +1,35 @@
 import torch
+import json
 
 import torch
 
 from gliner import GLiNER
 from gliner.data_processing.collator import DataCollator
+import tqdm
+
+from utils.experiment_io import get_run_dir
 
 class GLiNERModel(GLiNER):
+    @classmethod
+    def from_pretrained(self, *args, config=None, logger=None):
+        self.config = config
+        self.logger = logger
+
+        self.run_dir = get_run_dir(config.get('run_id'))
+        self.entity_types = self.config.get('feature', {}).get('labels', [])
+
+        self.batch_size = self.config.get('model', {}).get('batch_size', [])
+        self.threshold = 0
+
+        return super(GLiNERModel, self).from_pretrained(*args)
+
     def evaluate(
         self,
         test_data,
-        config,
         flat_ner=True,
         multi_label=False,
-        threshold=0.,
-        batch_size=12,
-        entity_types=None,
     ):
+
         """
         Evaluate the model on a given test dataset.
 
@@ -40,8 +54,6 @@ class GLiNERModel(GLiNER):
         span_labels = test_data['span_labels'].tolist()
         source_text = test_data['source_text'].tolist()
 
-        entity_types = config.get('feature', {}).get('labels', [])
-
         # Transform data into models input
         input_x, all_start_token_idx_to_text_idx, all_end_token_idx_to_text_idx = self.prepare_texts(source_text)
 
@@ -55,16 +67,16 @@ class GLiNERModel(GLiNER):
             return_entities=True,
             return_id_to_classes=True,
             prepare_labels=False,
-            entity_types=entity_types,
+            entity_types=self.entity_types,
         )
         data_loader = torch.utils.data.DataLoader(
-            input_x, batch_size=batch_size, shuffle=False, collate_fn=collator
+            input_x, batch_size=self.batch_size, shuffle=False, collate_fn=collator
         )
 
         y_pred = []
 
         # Iterate over data batches
-        for batch in data_loader:
+        for batch_idx, batch in enumerate(data_loader):
             # Move the batch to the appropriate device
             for key in batch:
                 if isinstance(batch[key], torch.Tensor):
@@ -81,9 +93,20 @@ class GLiNERModel(GLiNER):
                 batch["id_to_classes"],
                 model_output,
                 flat_ner=flat_ner,
-                threshold=threshold,
+                threshold=self.threshold,
                 multi_label=multi_label,
             )
+
+            if batch_idx % 100 == 0 or batch_idx * len(batch) == len(data_loader.dataset) - 1:
+                self.logger.info('Batch: [{}/{} ({:.0f}%)]'.format(
+                    batch_idx * len(batch), len(data_loader.dataset), 
+                    100. * batch_idx / len(data_loader)))
+                
+            with open(self.run_dir / "y_pred.json", "a") as f:
+                for pred in decoded_outputs:
+                    json.dump(pred, f)
+                    f.write("\n")
+
             y_pred.extend(decoded_outputs)
 
         return self.__convert_span_to_tokens(y_pred), y_true

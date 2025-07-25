@@ -66,9 +66,9 @@ class Ai4privacyPiiDataLoader(DatasetLoader):
             'BOD': 'BIRTHDATE',   # Birthdate
 
             # Location Data
-            'CITY': 'GPE',
-            'STATE': 'GPE',
-            'COUNTRY': 'GPE',
+            'CITY': 'LOCATION',
+            'STATE': 'LOCATION',
+            'COUNTRY': 'LOCATION',
             'POSTCODE': 'POSTCODE',
             'STREET': 'STREET',
             'BUILDING': 'BUILDING',

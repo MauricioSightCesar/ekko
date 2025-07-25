@@ -106,7 +106,7 @@ def roc_auc_score_each_label(y_pred_labels, y_scores, y_true_labels):
                 curr_y_scores.append(y_scores[i])
             
             elif i in y_true_idx:
-                curr_y_true.append(y_true_labels[i])
+                curr_y_true.append(0 if y_true_labels[i] == '0' else 1)
                 curr_y_scores.append(0)
 
             elif i in y_pred_idx:
