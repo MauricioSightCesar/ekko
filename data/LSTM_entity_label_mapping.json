@@ -1,0 +1,92 @@
+{
+  "description": "Entity label mapping for LSTM-CRF feature extraction across all datasets",
+  "version": "1.0",
+  "mapping": {
+    "PERSON_NAME": "PERSON_NAME",
+    "GIVENNAME1": "PERSON_NAME",
+    "GIVENNAME2": "PERSON_NAME",
+    "LASTNAME1": "PERSON_NAME",
+    "LASTNAME2": "PERSON_NAME",
+    "LASTNAME3": "PERSON_NAME",
+    "TITLE": "PERSON_NAME",
+    "USERNAME": "PERSON_NAME",
+    "PERSON_TITLE": "PERSON_NAME",
+    
+    "BOD": "DATE",
+    "BIRTHDATE": "DATE",
+    "DATE": "DATE",
+    
+    "CITY": "LOCATION",
+    "STATE": "LOCATION", 
+    "COUNTRY": "GPE",
+    "POSTCODE": "LOCATION",
+    "STREET": "LOCATION",
+    "BUILDING": "LOCATION",
+    "BUILDING_NUMBER": "LOCATION",
+    "GEOCOORD": "LOCATION",
+    "GEO_COORD": "LOCATION",
+    "SECADDRESS": "LOCATION",
+    "SEC_ADDRESS": "LOCATION",
+    "LOCATION": "LOCATION",
+    "ADDRESS": "LOCATION",
+
+    "ORGANIZATION": "ORGANIZATION",
+    "ORG": "ORGANIZATION",
+    "CARD_ISSUER": "ORGANIZATION",
+
+    "GEOPOLITICAL_ENTITIES": "GPE",
+    "GPE": "GPE",
+
+    "NATIONAL_ORIGIN RACE PROTECTED_GROUP": "NORP",
+    "NATIONAL_ORIGIN_RACE_PROTECTED_GROUP": "NORP",
+    "NORP": "NORP",
+    
+    "MISC": "0",
+    "MISCELLANEOUS": "0",
+    "OTHER": "0"
+  },
+  "target_labels": [
+    "PERSON_NAME",
+    "PHONE_NUMBER",
+    "SOCIAL_NUMBER", 
+    "DRIVER_LICENSE",
+    "ID_CARD",
+    "PASSPORT",
+    "CARD_ISSUER",
+    "BIRTHDATE",
+    "CITY",
+    "STATE", 
+    "COUNTRY",
+    "POSTCODE",
+    "STREET",
+    "BUILDING_NUMBER",
+    "GEO_COORD",
+    "SEC_ADDRESS", 
+    "ADDRESS",
+    "PASSWORD",
+    "EMAIL",
+    "SEX",
+    "0"
+  ],
+  "dataset_compatibility": {
+    "Ai4privacyPii": [
+      "PERSON_NAME", "LOCATION", "0", "ORGANIZATION", "DATE", "NORP", "MISC", "GPE"
+    ],
+    "Conll2003": [
+      "PERSON_NAME", "LOCATION", "ORGANIZATION", "MISC"
+    ],
+    "Ontonotes5": [
+      "PERSON_NAME", "LOCATION", "0", "ORGANIZATION", "DATE", "NORP", "MISC", "GPE"
+    ],
+    "CDR": [
+      "MISC"
+    ],
+    "AFD": [
+      "PERSON_NAME", "LOCATION", "ORGANIZATION", "0", "GPE"
+    ],
+    "LeNERbr": [
+      "PERSON_NAME", "GPE", "0"
+    ]
+  },
+  "unmapped_fallback": "0"
+}

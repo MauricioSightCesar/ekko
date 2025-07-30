@@ -14,6 +14,10 @@ class FeatureGeneratorFactory:
             from feature_generator.spacy_feature_extractor import SpaCyFeatureGenerator
             return SpaCyFeatureGenerator(self.config, logger, dataset_loader)
 
+        elif self.feature_generator_name == 'LSTMCRF':
+            from feature_generator.lstmcrf_feature_extractor import LSTMCRFFeatureGenerator
+            return LSTMCRFFeatureGenerator(self.config, logger, dataset_loader)
+
         else:
             raise ValueError(
                 f"Unsupported feature generator: {self.feature_generator_name}")
