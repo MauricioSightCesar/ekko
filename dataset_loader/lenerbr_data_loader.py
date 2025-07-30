@@ -28,12 +28,12 @@ class LeNERbrDataLoader(DatasetLoader):
         df['language'] = 'Portuguese'
 
         df['span_labels'] = df['span_labels'].apply(self.filter_labels)
-        
+
         # Log the number of rows loaded
         self.logger.info(f"Loaded {len(df)} rows for phase '{self.phase}'")
 
         return df
-    
+
 
     def filter_labels(self, span_labels):
         """

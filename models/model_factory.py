@@ -1,3 +1,6 @@
+from models.GLiNER import GLiNERModel
+from models.pretrained_lstm_crf_flair import PretrainedLSTMCRFFlairModel
+
 class ModelFactory:
     def __init__(self, config, logger):
         self.config = config
@@ -16,6 +19,9 @@ class ModelFactory:
         if self.model_name == "spaCy":
             from models import spaCy
             return spaCy(self.config)
-        
+        elif self.model_name == "LSTMCRF":
+            device = self.config.get('device', 'cpu')
+            model_name = self.model_config.get('pretrained_model', "flair/ner-english-ontonotes")
+            return PretrainedLSTMCRFFlairModel(device=device, model_name=model_name, logger=self.logger)
         else:
             raise ValueError(f"Unknown model: {self.model_name}")

@@ -12,19 +12,19 @@ from utils.seed_all import seed_all
 
 def main(config=None, data=None):
     if config is None:
-        config = load_config(default_file_name="Gliner-ai4privacy")
+        config = load_config(default_file_name="LSTMCRF-ai4privacy")
 
     if 'run_id' not in config:
         run_id = get_run_id(config, [config['model']['name'], config['dataset']['name'], config['phase']])
         config['run_id'] = run_id
-    
+
     run_id = config['run_id']
     run_dir = get_run_dir(run_id)
 
     save_run_artifacts(run_dir, config)
 
     # Setup logger
-    logger = Logger(name="train_validation", log_file=f"{run_dir}/output.log", 
+    logger = Logger(name="train_validation", log_file=f"{run_dir}/output.log",
                     level=logging.DEBUG if 'debug' in config and config['debug'] else logging.INFO)
 
     # log run id
@@ -42,8 +42,11 @@ def main(config=None, data=None):
         feature_generator = FeatureGeneratorFactory(config).get_feature_generator(logger, dataset_loader)
         data = feature_generator.load_processed()
         logger.info("Data loaded successfully.")
-    else:
-        logger.info("Using provided data for training and validation.")
+    unique_labels = set()
+    for spans in data["span_labels"].values:
+        for span in spans:
+            unique_labels.add(span[2])
+    logger.info(f"Unique labels in the dataset: {unique_labels}")
 
     # 3. Initializations
     logger.debug("Initializing components...")
@@ -60,7 +63,9 @@ def main(config=None, data=None):
 
     # 4. Execute
     logger.debug("Starting execution...")
-    y_pred, y_true = model.evaluate(data)
+
+    y_pred, y_true = model.evaluate(data[:10], config)
+    logger.info(f"Finished execution, getting metrics.")
     metrics = get_metrics(y_pred, y_true, logger=logger)
     logger.info(f"Metrics: {metrics}")
     logger.info("Execution completed.")
@@ -69,7 +74,7 @@ def main(config=None, data=None):
     logger.debug("Saving run artifacts...")
     save_run_artifacts(run_dir, config, metrics=metrics)
     logger.info("Run artifacts saved.")
-    
+
     logger.info("Validation completed.")
 
     del data, model, logger
