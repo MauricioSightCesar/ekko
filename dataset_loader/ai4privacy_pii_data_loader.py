@@ -51,8 +51,7 @@ class Ai4privacyPiiDataLoader(DatasetLoader):
             'LASTNAME1': 'PERSON_NAME',
             'LASTNAME2': 'PERSON_NAME',
             'LASTNAME3': 'PERSON_NAME',
-            'TITLE': 'PERSON_TITLE',
-            'USERNAME': 'USERNAME',
+            'USERNAME': 'PERSON_NAME',
 
             # Identification Number
             'TEL': 'PHONE_NUMBER',
@@ -66,12 +65,12 @@ class Ai4privacyPiiDataLoader(DatasetLoader):
             'BOD': 'BIRTHDATE',   # Birthdate
 
             # Location Data
-            'CITY': 'LOCATION',
-            'STATE': 'LOCATION',
-            'COUNTRY': 'LOCATION',
+            'CITY': 'CITY',
+            'STATE': 'STATE',
+            'COUNTRY': 'COUNTRY',
             'POSTCODE': 'POSTCODE',
             'STREET': 'STREET',
-            'BUILDING': 'BUILDING',
+            'BUILDING': 'BUILDING_NUMBER',
             'GEOCOORD': 'GEO_COORD',
             'SECADDRESS': 'SEC_ADDRESS',
 

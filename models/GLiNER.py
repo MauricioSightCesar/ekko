@@ -45,12 +45,7 @@ class GLiNERModel(GLiNER):
             tuple: A tuple containing the evaluation output and the F1 score.
         """
         self.eval()
-        # Create the dataset and data loader
-        # dataset = GLiNERDataset(test_data, config = self.config, data_processor=self.data_processor,
-        #                                             return_tokens = True, return_id_to_classes = True,
-        #                                             prepare_labels= False, return_entities = True,
-        #                                             entities=entity_types, get_negatives=False)
-        # collator = DataCollatorWithPadding(self.config)
+
         span_labels = test_data['span_labels'].tolist()
         source_text = test_data['source_text'].tolist()
 
@@ -109,38 +104,40 @@ class GLiNERModel(GLiNER):
 
             y_pred.extend(decoded_outputs)
 
+        with open(self.run_dir / "y_true.json", "a") as f:
+            json.dump(y_true, f)
+            f.write("\n")
+
         return self.__convert_span_to_tokens(y_pred), y_true
     
-    def __get_labels_for_token(self, span_labels, start_tokens_indexes, end_tokens_indexes):
+    def __get_labels_for_token(span_labels, start_tokens_indexes, end_tokens_indexes):
         y_true = []
         for ex_idx in range(len(span_labels)):
             span_label = span_labels[ex_idx]
             start_tokens = start_tokens_indexes[ex_idx]
             end_tokens = end_tokens_indexes[ex_idx]
-            
+                
             example_label = []
 
             for start_token_idx, end_token_idx in zip(start_tokens, end_tokens):
                 updated = False
-                
+                    
                 for start_label_idx, end_label_idx, label in span_label:
                     if end_label_idx < start_token_idx:
                         continue
 
                     if ((start_label_idx < end_token_idx and start_label_idx >= start_token_idx) or 
-                        (end_label_idx > start_token_idx and end_label_idx <= end_token_idx)):
+                        (end_label_idx > start_token_idx and end_label_idx <= end_token_idx) or
+                        (start_token_idx >= start_label_idx and end_token_idx <= end_label_idx)):
                         example_label.append(label)
                         updated = True
                         continue
-
-                    if start_label_idx > end_token_idx:
-                        break
-                
+                    
                 if not updated:
                     example_label.append('0')
 
             y_true.append(example_label)
-        
+            
         return y_true
     
     def __get_span_token_labels(self, label_tokens):
@@ -168,7 +165,7 @@ class GLiNERModel(GLiNER):
 
         return y_true
 
-    def __convert_span_to_tokens(self, y_pred):
+    def __convert_span_to_tokens(y_pred):
         ds_label_per_token = []
 
         for sentence in y_pred:

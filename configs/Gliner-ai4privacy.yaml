@@ -8,8 +8,6 @@ feature:
   labels:
     [
       "PERSON_NAME",
-      "PERSON_TITLE",
-      "USERNAME",
       "PHONE_NUMBER",
       "SOCIAL_NUMBER",
       "DRIVER_LICENSE",
@@ -17,7 +15,9 @@ feature:
       "PASSPORT",
       "CARD_ISSUER",
       "BIRTHDATE",
-      "LOCATION",
+      "CITY",
+      "STATE",
+      "COUNTRY",
       "POSTCODE",
       "STREET",
       "BUILDING_NUMBER",

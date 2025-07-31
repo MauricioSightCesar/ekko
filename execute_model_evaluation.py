@@ -67,7 +67,7 @@ def main(config=None, data=None):
 
     # 6. Save run artifacts
     logger.debug("Saving run artifacts...")
-    save_run_artifacts(run_dir, config, model=model, metrics=metrics)
+    save_run_artifacts(run_dir, config, metrics=metrics)
     logger.info("Run artifacts saved.")
     
     logger.info("Validation completed.")
