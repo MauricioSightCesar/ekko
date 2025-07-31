@@ -110,7 +110,7 @@ class GLiNERModel(GLiNER):
 
         return self.__convert_span_to_tokens(y_pred), y_true
     
-    def __get_labels_for_token(span_labels, start_tokens_indexes, end_tokens_indexes):
+    def __get_labels_for_token(self, span_labels, start_tokens_indexes, end_tokens_indexes):
         y_true = []
         for ex_idx in range(len(span_labels)):
             span_label = span_labels[ex_idx]
@@ -165,7 +165,7 @@ class GLiNERModel(GLiNER):
 
         return y_true
 
-    def __convert_span_to_tokens(y_pred):
+    def __convert_span_to_tokens(self, y_pred):
         ds_label_per_token = []
 
         for sentence in y_pred:

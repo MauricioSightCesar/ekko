@@ -37,7 +37,7 @@ class Ai4privacyPiiDataLoader(DatasetLoader):
         Filter out unwanted labels from the span_labels.
         """
 
-        exclude_labels = ['TIME', 'DATE', 'IP']
+        exclude_labels = ['TIME', 'DATE', 'IP',  'TITLE']
         mapping = self.entities_mapping()
 
         return [[span[0], span[1], mapping[span[2]]] for span in ast.literal_eval(span_labels) if span[2] not in exclude_labels]
