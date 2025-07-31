@@ -1,0 +1,18 @@
+phase: train
+
+dataset:
+  name: LeNERbr
+
+feature:
+  generator: GLiNER
+  labels:
+    [
+      "PERSON_NAME",
+      "GEOPOLITICAL_ENTITIES",
+    ]
+
+model:
+  name: GLiNER
+  version: urchade/gliner_medium-v2.1
+
+  batch_size: 6
