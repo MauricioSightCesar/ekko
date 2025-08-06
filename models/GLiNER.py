@@ -53,7 +53,26 @@ class GLiNERModel(GLiNER):
         input_x, all_start_token_idx_to_text_idx, all_end_token_idx_to_text_idx = self.prepare_texts(source_text)
 
         # Get y_true -> labels per token
-        y_true = self.__get_labels_for_token(span_labels, all_start_token_idx_to_text_idx, all_end_token_idx_to_text_idx)
+        output_y = self.__get_labels_for_token(span_labels, all_start_token_idx_to_text_idx, all_end_token_idx_to_text_idx)
+
+        X = []
+        y_true = []
+
+        for i in range(len(input_x)):
+            example = input_x[i]
+            labels = output_y[i]
+
+            text_size = len(example['tokenized_text'])
+            if text_size > 384:
+                num = (text_size // 384) + 1
+                for j in range(num):
+                    start_idx = j * 384
+                    end_idx = min(text_size, (j + 1) * 384)
+                    X.append({'tokenized_text': example['tokenized_text'][start_idx:end_idx], 'ner': None})
+                    y_true.append(labels[start_idx:end_idx])
+            else:
+                X.append(example)
+                y_true.append(labels)
 
         collator = DataCollator(
             self.config,
@@ -65,7 +84,7 @@ class GLiNERModel(GLiNER):
             entity_types=self.entity_types,
         )
         data_loader = torch.utils.data.DataLoader(
-            input_x, batch_size=self.batch_size, shuffle=False, collate_fn=collator
+            X, batch_size=self.batch_size, shuffle=False, collate_fn=collator
         )
 
         y_pred = []
@@ -131,7 +150,7 @@ class GLiNERModel(GLiNER):
                         (start_token_idx >= start_label_idx and end_token_idx <= end_label_idx)):
                         example_label.append(label)
                         updated = True
-                        continue
+                        break
                     
                 if not updated:
                     example_label.append('0')

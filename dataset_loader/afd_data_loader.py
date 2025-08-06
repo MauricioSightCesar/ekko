@@ -53,7 +53,7 @@ class AFDDataLoader(DatasetLoader):
             'credit_card': 'CARD_ISSUER',
 
             # Location Data
-            'address': 'GPE',
+            'address': 'ADDRESS',
 
             # Email Address
             'email': 'EMAIL'

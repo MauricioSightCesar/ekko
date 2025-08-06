@@ -121,6 +121,9 @@ def roc_auc_score_each_label(y_pred_labels, y_scores, y_true_labels):
     auc_scores = {}
     
     for label in unique_labels:
+        if label == '0':
+            continue
+
         y_true_idx = [i for i, l in enumerate(y_true_labels) if l == label]
         y_pred_idx = [i for i, l in enumerate(y_pred_labels) if l == label]
 
@@ -165,9 +168,9 @@ def get_metrics_by_token(y_pred, y_true, logger=None):
 
     threshold = get_threshold_youden_index(y_true_binary, y_scores)
 
-    overall_result = get_overall_metrics(y_true_binary, y_scores > threshold)
+    overall_result = get_overall_metrics(y_true_binary, y_scores >= threshold)
 
-    results_per_label = get_tpr_per_label(y_true_labels, np.where(y_scores > threshold, y_pred_labels, '0'))
+    results_per_label = get_tpr_per_label(y_true_labels, np.where(y_scores >= threshold, y_pred_labels, '0'))
 
     result = {'AUCROC': aucroc, **overall_result, 'optimal_threshold': threshold}
     metrics_serializable = {k: float(v) for k, v in result.items()}
@@ -187,7 +190,7 @@ def get_metrics_by_sentence(y_pred, y_true, logger=None):
 
     threshold = get_threshold_youden_index(y_true_binary, y_scores)
 
-    overall_result = get_overall_metrics(y_true_binary, y_scores > threshold)
+    overall_result = get_overall_metrics(y_true_binary, y_scores >= threshold)
 
     result = {'AUCROC': aucroc, **overall_result, 'optimal_threshold': threshold}
     metrics_serializable = {k: float(v) for k, v in result.items()}
