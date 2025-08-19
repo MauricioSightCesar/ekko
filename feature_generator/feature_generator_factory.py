@@ -1,6 +1,7 @@
 
 from feature_generator.gliner_feature_extractor import GLiNERFeatureGenerator
 from feature_generator.lstmcrf_feature_extractor import LSTMCRFFeatureGenerator
+from feature_generator.deberta_feature_extractor import DebertaFeatureGenerator
 
 class FeatureGeneratorFactory:
     def __init__(self, config):
@@ -14,6 +15,8 @@ class FeatureGeneratorFactory:
             return GLiNERFeatureGenerator(self.config, logger, dataset_loader)
         elif self.feature_generator_name == 'LSTMCRF':
             return LSTMCRFFeatureGenerator(self.config, logger, dataset_loader)
+        elif self.feature_generator_name == 'DeBERTa':
+            return DebertaFeatureGenerator(self.config, logger, dataset_loader)
         else:
             raise ValueError(
                 f"Unsupported feature generator: {self.feature_generator_name}")
