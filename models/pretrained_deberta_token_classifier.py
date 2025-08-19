@@ -17,6 +17,8 @@ from transformers import (
     AutoModelForTokenClassification,
     pipeline as hf_pipeline,
 )
+from datasets import Dataset
+from transformers.pipelines.pt_utils import KeyDataset
 
 # No Flair-specific utilities here; we expose raw HF pipeline outputs.
 
@@ -209,60 +211,62 @@ class PretrainedDebertaTokenClassifierModel:
         eval_start = time.time()
         batch_size = self._get_optimal_batch_size(len(texts))
 
-        for i in range(0, len(texts), batch_size):
-            batch_texts = texts[i:i + batch_size]
-            try:
-                batch_outputs = self.pipe(batch_texts)
-            except Exception as e:
-                self._log_info(f"Batch prediction failed: {e}")
-                # Fill defaults to maintain shape
-                for text in batch_texts:
-                    tok_list, _ = whitespace_tokenize_with_offsets(text)
-                    predictions.append([("0", 0.1) for _ in tok_list])
-                    ground_truth.append(["0" for _ in tok_list])
-                continue
+        # Build a streaming dataset and iterate with KeyDataset for efficient GPU batching
+        ds = Dataset.from_dict({"text": texts, "spans": gt_spans_list})
 
-            # Normalize output to list-per-input
-            if not isinstance(batch_outputs, list) or (batch_texts and not isinstance(batch_outputs[0], list)):
-                batch_outputs = [batch_outputs] if isinstance(batch_outputs, list) else [[batch_outputs]]
+        try:
+            iterator = self.pipe(KeyDataset(ds, "text"), batch_size=batch_size)
+        except Exception as e:
+            # Pipeline failed early: fall back to sequential defaults to preserve shape
+            self._log_info(f"Pipeline failed to start: {e}")
+            for text in texts:
+                tok_list, _ = whitespace_tokenize_with_offsets(text)
+                predictions.append([("0", 0.1) for _ in tok_list])
+                ground_truth.append(["0" for _ in tok_list])
+            self._log_info(f"Evaluation completed in {time.time() - eval_start:.2f}s (fallback)")
+            return predictions, ground_truth
 
-            for idx_in_batch, (text, ents) in enumerate(zip(batch_texts, batch_outputs)):
-                tok_list, tok_positions = whitespace_tokenize_with_offsets(text)
-                token_preds: List[Tuple[str, float]] = [("0", 0.1) for _ in tok_list]
+        for idx, ents in enumerate(iterator):
+            # Access text and spans from dataset by index to stay in sync with pipe outputs
+            sample = ds[idx]
+            text = sample["text"]
+            sample_spans = sample["spans"] or []
 
-                for ent in ents or []:
-                    raw_label = ent.get("entity_group") or ent.get("entity") or "0"
-                    mapped_label = label_map.get(str(raw_label), "0")
-                    start = int(ent.get("start", 0))
-                    end = int(ent.get("end", start))
-                    score = float(ent.get("score", 0.9))
-                    score = max(0.1, score)
+            tok_list, tok_positions = whitespace_tokenize_with_offsets(text)
+            token_preds: List[Tuple[str, float]] = [("0", 0.1) for _ in tok_list]
 
-                    for idx, (ts, te) in enumerate(tok_positions):
-                        if ts < end and te > start:  # overlap
-                            token_preds[idx] = (mapped_label, score)
+            for ent in ents or []:
+                raw_label = ent.get("entity_group") or ent.get("entity") or "0"
+                mapped_label = label_map.get(str(raw_label), "0")
+                start = int(ent.get("start", 0))
+                end = int(ent.get("end", start))
+                score = float(ent.get("score", 0.9))
+                score = max(0.1, min(0.9, score))
 
-                predictions.append(token_preds)
-                # Build ground-truth labels per token from provided span_labels
-                gt_labels = ["0" for _ in tok_list]
-                global_idx = i + idx_in_batch
-                sample_spans = gt_spans_list[global_idx] if global_idx < len(gt_spans_list) else []
-                if isinstance(sample_spans, (list, tuple)):
-                    for span in sample_spans:
-                        if isinstance(span, dict):
-                            s = int(span.get("start", 0))
-                            e = int(span.get("end", 0))
-                            lbl = str(span.get("label", "0"))
-                        elif isinstance(span, (list, tuple)) and len(span) >= 3:
-                            s = int(span[0])
-                            e = int(span[1])
-                            lbl = str(span[2])
-                        else:
-                            continue
-                        for t_idx, (ts, te) in enumerate(tok_positions):
-                            if ts < e and te > s:
-                                gt_labels[t_idx] = lbl
-                ground_truth.append(gt_labels)
+                for t_idx, (ts, te) in enumerate(tok_positions):
+                    if ts < end and te > start:
+                        token_preds[t_idx] = (mapped_label, score)
+
+            predictions.append(token_preds)
+
+            # Ground truth per token from spans
+            gt_labels = ["0" for _ in tok_list]
+            if isinstance(sample_spans, (list, tuple)):
+                for span in sample_spans:
+                    if isinstance(span, dict):
+                        s = int(span.get("start", 0))
+                        e = int(span.get("end", 0))
+                        lbl = str(span.get("label", "0"))
+                    elif isinstance(span, (list, tuple)) and len(span) >= 3:
+                        s = int(span[0])
+                        e = int(span[1])
+                        lbl = str(span[2])
+                    else:
+                        continue
+                    for t_idx, (ts, te) in enumerate(tok_positions):
+                        if ts < e and te > s:
+                            gt_labels[t_idx] = lbl
+            ground_truth.append(gt_labels)
 
         self._log_info(f"Evaluation completed in {time.time() - eval_start:.2f}s")
         return predictions, ground_truth
