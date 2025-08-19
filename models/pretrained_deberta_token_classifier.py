@@ -211,8 +211,8 @@ class PretrainedDebertaTokenClassifierModel:
         eval_start = time.time()
         batch_size = self._get_optimal_batch_size(len(texts))
 
-        # Build a streaming dataset and iterate with KeyDataset for efficient GPU batching
-        ds = Dataset.from_dict({"text": texts, "spans": gt_spans_list})
+        # Build a streaming dataset (text only) to avoid Arrow nested mixed-type issues
+        ds = Dataset.from_dict({"text": texts})
 
         try:
             iterator = self.pipe(KeyDataset(ds, "text"), batch_size=batch_size)
@@ -227,10 +227,10 @@ class PretrainedDebertaTokenClassifierModel:
             return predictions, ground_truth
 
         for idx, ents in enumerate(iterator):
-            # Access text and spans from dataset by index to stay in sync with pipe outputs
+            # Access text from dataset and spans from parallel Python list
             sample = ds[idx]
             text = sample["text"]
-            sample_spans = sample["spans"] or []
+            sample_spans = gt_spans_list[idx] if idx < len(gt_spans_list) else []
 
             tok_list, tok_positions = whitespace_tokenize_with_offsets(text)
             token_preds: List[Tuple[str, float]] = [("0", 0.1) for _ in tok_list]
