@@ -14,8 +14,8 @@ class ModelFactory:
             return GLiNERModel.from_pretrained(self.version, config=self.config, logger=self.logger)
         
         if self.model_name == "spaCy":
-            from models import spaCy
-            return spaCy(self.config)
+            from models.spaCy import SpaCy
+            return SpaCy(self.config)
         
         else:
             raise ValueError(f"Unknown model: {self.model_name}")

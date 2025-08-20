@@ -32,6 +32,7 @@ def __log_metrics(logger, metrics, cm):
             logger.info(f"{label}{tpr:.4f}")
         logger.info('')
 
+    if 'aucroc_per_label' in metrics:
         logger.info("------- AUCROC per Label -------")
         for label, tpr in metrics['aucroc_per_label'].items():
             label = label + ':\t\t\t' if len(label) < 15 else label + ':\t'
@@ -164,7 +165,7 @@ def get_metrics_by_token(y_pred, y_true, logger=None):
     y_pred_labels, y_scores, y_true_labels, y_true_binary = flatten_data(y_pred, y_true)
 
     aucroc = roc_auc_score(y_true_binary, y_scores)
-    aucroc_per_label = roc_auc_score_each_label(y_pred_labels, y_scores, y_true_labels)
+    # aucroc_per_label = roc_auc_score_each_label(y_pred_labels, y_scores, y_true_labels)
 
     threshold = get_threshold_youden_index(y_true_binary, y_scores)
 
@@ -175,7 +176,7 @@ def get_metrics_by_token(y_pred, y_true, logger=None):
     result = {'AUCROC': aucroc, **overall_result, 'optimal_threshold': threshold}
     metrics_serializable = {k: float(v) for k, v in result.items()}
     metrics_serializable['tpr_per_label'] = results_per_label
-    metrics_serializable['aucroc_per_label'] = aucroc_per_label
+    # metrics_serializable['aucroc_per_label'] = aucroc_per_label
 
     if logger is not None:
         logger.info('----- RESULTS BY TOKEN IN SENTENCES ------')

@@ -22,6 +22,9 @@ class GLiNERModel(GLiNER):
         self.threshold = 0
 
         return super(GLiNERModel, self).from_pretrained(*args)
+    
+    def compile(self, device):
+        return self.to(device)
 
     def evaluate(
         self,

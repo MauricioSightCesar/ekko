@@ -1,6 +1,3 @@
-
-from feature_generator.gliner_feature_extractor import GLiNERFeatureGenerator
-
 class FeatureGeneratorFactory:
     def __init__(self, config):
         self.config = config
@@ -10,7 +7,12 @@ class FeatureGeneratorFactory:
 
     def get_feature_generator(self, logger, dataset_loader):
         if self.feature_generator_name == 'GLiNER':
+            from feature_generator.gliner_feature_extractor import GLiNERFeatureGenerator
             return GLiNERFeatureGenerator(self.config, logger, dataset_loader)
+        
+        if self.feature_generator_name == 'spaCy':
+            from feature_generator.spacy_feature_extractor import SpaCyFeatureGenerator
+            return SpaCyFeatureGenerator(self.config, logger, dataset_loader)
 
         else:
             raise ValueError(
