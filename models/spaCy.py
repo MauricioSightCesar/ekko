@@ -29,7 +29,7 @@ class SpaCy:
 
             tokens = []
             labels = []
-            for d in doc:
+            for i, d in enumerate(doc):
                 # Text, BIO label, Entity type, char start idx, char end idx
                 label = self.map_labels(d.ent_type_)
 
@@ -53,6 +53,11 @@ class SpaCy:
                     
             y_pred.append(tokens)
             y_true.append(labels)
+
+            if i % 100 == 0 or i == len(source_text) - 1:
+                self.logger.info('Item: [{}/{} ({:.0f}%)]'.format(
+                    i, len(source_text), 
+                    100. * i / len(source_text)))
 
         
         return y_pred, y_true
