@@ -1,13 +1,14 @@
 phase: train
 
 dataset:
-  name: AFD
+  name: Ontonotes5
 
 feature:
   generator: spaCy
   labels:
     [
       "PERSON_NAME",
+      "NATIONAL_ORIGIN RACE PROTECTED_GROUP",
       "GEOPOLITICAL_ENTITIES",
     ]
 

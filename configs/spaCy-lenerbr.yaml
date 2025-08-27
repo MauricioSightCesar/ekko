@@ -1,14 +1,14 @@
 phase: train
 
 dataset:
-  name: AFD
+  name: LeNERbr
 
 feature:
   generator: spaCy
   labels:
     [
       "PERSON_NAME",
-      "GEOPOLITICAL_ENTITIES",
+      "ADDRESS",
     ]
 
 model:

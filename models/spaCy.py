@@ -1,8 +1,9 @@
 import spacy
 
 class SpaCy:
-    def __init__(self, config):
+    def __init__(self, config, logger):
         self.config = config
+        self.logger = logger
         
         self.model_config = config.get('model')
         self.version = self.model_config.get('version')
@@ -32,6 +33,7 @@ class SpaCy:
             for i, d in enumerate(doc):
                 # Text, BIO label, Entity type, char start idx, char end idx
                 label = self.map_labels(d.ent_type_)
+                label = label if label in self.entity_types else '0'
 
                 tokens.append((label, 0 if label == '0' else 1))
 
@@ -50,9 +52,14 @@ class SpaCy:
                 
                 if len(tokens) > len(labels):
                     labels.append('0')
-                    
-            y_pred.append(tokens)
-            y_true.append(labels)
+            
+            text_size = len(tokens)
+            num = (text_size // 384) + 1
+            for j in range(num):
+                start_idx = j * 384
+                end_idx = min(text_size, (j + 1) * 384)
+                y_pred.append(tokens[start_idx:end_idx])
+                y_true.append(labels[start_idx:end_idx])
 
             if i % 100 == 0 or i == len(source_text) - 1:
                 self.logger.info('Item: [{}/{} ({:.0f}%)]'.format(

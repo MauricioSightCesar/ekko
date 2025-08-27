@@ -15,7 +15,7 @@ class ModelFactory:
         
         if self.model_name == "spaCy":
             from models.spaCy import SpaCy
-            return SpaCy(self.config)
+            return SpaCy(self.config, self.logger)
         
         else:
             raise ValueError(f"Unknown model: {self.model_name}")

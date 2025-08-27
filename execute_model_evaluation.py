@@ -56,7 +56,7 @@ def main(config=None, data=None):
     logger.debug("Initializing model...")
     model_factory = ModelFactory(config, logger)
     model = model_factory.create_model()
-    model = model.to(device)
+    model = model.compile(device)
 
     # 4. Execute
     logger.debug("Starting execution...")

@@ -1,14 +1,14 @@
 phase: train
 
 dataset:
-  name: AFD
+  name: Ai4privacyPii
 
 feature:
   generator: spaCy
   labels:
     [
-      "PERSON_NAME",
-      "GEOPOLITICAL_ENTITIES",
+      'PERSON_NAME',
+      'ADDRESS',
     ]
 
 model:

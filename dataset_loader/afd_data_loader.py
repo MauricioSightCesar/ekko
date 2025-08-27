@@ -36,7 +36,7 @@ class AFDDataLoader(DatasetLoader):
         Filter out unwanted labels from the span_labels.
         """
 
-        exclude_labels = ['url', 'company']
+        exclude_labels = ['url', 'company', 'phone', 'ssn', 'credit_card', 'email']
         mapping = self.entities_mapping()
 
         return [[span[0], span[1], mapping[span[2]]] for span in ast.literal_eval(span_labels) if span[2] not in exclude_labels]

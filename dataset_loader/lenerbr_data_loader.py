@@ -52,7 +52,7 @@ class LeNERbrDataLoader(DatasetLoader):
             'PESSOA': 'PERSON_NAME',
 
             # Location Data
-            'LOCAL': 'GPE',
+            'LOCAL': 'ADDRESS',
         }
 
     def bio_to_spans(self, tokens, tags):
