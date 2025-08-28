@@ -1,5 +1,6 @@
 import ast
 import pandas as pd
+from pathlib import Path
 
 from datasets import load_dataset
 
@@ -16,7 +17,10 @@ class Conll2003DataLoader(DatasetLoader):
 
         # Log the loading process
         self.logger.info("Loading Conll2003 dataset...")
-
+        df_path = Path("data/conll2003/train.csv")
+        if df_path.is_file():
+            df = pd.read_csv(df_path)
+            return df
         # Load the dataset using the specified phase
         ds = load_dataset("eriktks/conll2003", split=self.phase, trust_remote_code=True)
 

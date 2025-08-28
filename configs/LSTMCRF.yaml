@@ -1,0 +1,17 @@
+phase: train
+
+device: cpu  # Use GPU for maximum performance
+
+dataset:
+  name: Ontonotes5
+
+feature:
+  generator: LSTMCRF
+  labels: ['PERSON_NAME', 'LOCATION', 'ORGANIZATION', 'DATE']
+
+model:
+  name: LSTMCRF
+  version: null
+  use_pretrained: true                    # Use pre-trained model instead of training from scratch
+  pretrained_model: "flair/ner-english-ontonotes"  # Pre-trained Flair model to use
+  batch_size: 32                          # Optimized batch size for GPU processing

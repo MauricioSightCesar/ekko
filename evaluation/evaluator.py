@@ -97,7 +97,6 @@ def flatten_data(y_pred, y_true):
     y_scores = np.array(y_scores)
     y_true_labels = np.array(y_true_labels)
     y_true_binary = np.array(y_true_binary)
-
     return y_pred_labels, y_scores, y_true_labels, y_true_binary
 
 def get_threshold_youden_index(y_true, y_pred):
@@ -203,6 +202,10 @@ def get_metrics_by_sentence(y_pred, y_true, logger=None):
     return metrics_serializable
 
 def get_metrics(y_pred, y_true, logger=None):
+    if logger is not None:
+        logger.info("Starting metrics calculation...")
+        logger.info(f"Processing {len(y_pred)} predictions and {len(y_true)} ground truth labels")
+
     metrics_by_token = get_metrics_by_token(y_pred, y_true, logger)
     metrics_by_sentence = get_metrics_by_sentence(y_pred, y_true, logger)
 
