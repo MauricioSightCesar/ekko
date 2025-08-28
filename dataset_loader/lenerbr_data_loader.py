@@ -16,7 +16,7 @@ class LeNERbrDataLoader(DatasetLoader):
         # Log the loading process
         self.logger.info("Loading LeNER-BR dataset...")
 
-        ds = CoNLLDataset(f"../data/LeNERBr/model/data/{self.phase}.txt", lambda x: x, lambda x: x)
+        ds = CoNLLDataset(f"./data/LeNERBr/model/data/{self.phase}.txt", lambda x: x, lambda x: x)
 
         converted_data = []
         for example in ds:
@@ -40,10 +40,10 @@ class LeNERbrDataLoader(DatasetLoader):
         Filter out unwanted labels from the span_labels.
         """
 
-        use_labels = ['TEMPO', 'LEGISLACAO', 'ORGANIZACAO', 'PESSOA', 'JURISPRUDENCIA']
+        use_labels = ['PESSOA', 'LOCAL']
         mapping = self.entities_mapping()
 
-        return [[span[0], span[1], mapping[span[2]]] for span in ast.literal_eval(span_labels) if span[2] in use_labels]
+        return [[span[0], span[1], mapping[span[2]]] for span in span_labels if span[2] in use_labels]
     
     
     def entities_mapping(self) -> dict:
@@ -52,7 +52,7 @@ class LeNERbrDataLoader(DatasetLoader):
             'PESSOA': 'PERSON_NAME',
 
             # Location Data
-            'LOCAL': 'GPE',
+            'LOCAL': 'ADDRESS',
         }
 
     def bio_to_spans(self, tokens, tags):

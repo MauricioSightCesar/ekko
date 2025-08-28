@@ -1,0 +1,17 @@
+phase: train
+
+dataset:
+  name: CDR
+
+feature:
+  generator: GLiNER
+  labels:
+    [
+      "DISEASE"
+    ]
+
+model:
+  name: GLiNER
+  version: urchade/gliner_medium-v2.1
+
+  batch_size: 6

@@ -1,0 +1,19 @@
+phase: train
+
+dataset:
+  name: Ontonotes5
+
+feature:
+  generator: GLiNER
+  labels:
+    [
+      "PERSON_NAME",
+      "NATIONAL_ORIGIN RACE PROTECTED_GROUP",
+      "GEOPOLITICAL_ENTITIES",
+    ]
+
+model:
+  name: GLiNER
+  version: urchade/gliner_medium-v2.1
+
+  batch_size: 6

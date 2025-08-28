@@ -1,0 +1,16 @@
+phase: train
+
+dataset:
+  name: LeNERbr
+
+feature:
+  generator: spaCy
+  labels:
+    [
+      "PERSON_NAME",
+      "ADDRESS",
+    ]
+
+model:
+  name: spaCy
+  version: en_core_web_trf

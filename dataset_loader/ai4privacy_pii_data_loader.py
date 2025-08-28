@@ -37,7 +37,7 @@ class Ai4privacyPiiDataLoader(DatasetLoader):
         Filter out unwanted labels from the span_labels.
         """
 
-        exclude_labels = ['TIME', 'DATE', 'IP']
+        exclude_labels = ['TIME', 'DATE', 'IP',  'TITLE']
         mapping = self.entities_mapping()
 
         return [[span[0], span[1], mapping[span[2]]] for span in ast.literal_eval(span_labels) if span[2] not in exclude_labels]
@@ -51,8 +51,7 @@ class Ai4privacyPiiDataLoader(DatasetLoader):
             'LASTNAME1': 'PERSON_NAME',
             'LASTNAME2': 'PERSON_NAME',
             'LASTNAME3': 'PERSON_NAME',
-            'TITLE': 'PERSON_TITLE',
-            'USERNAME': 'USERNAME',
+            'USERNAME': 'PERSON_NAME',
 
             # Identification Number
             'TEL': 'PHONE_NUMBER',
@@ -66,14 +65,14 @@ class Ai4privacyPiiDataLoader(DatasetLoader):
             'BOD': 'BIRTHDATE',   # Birthdate
 
             # Location Data
-            'CITY': 'GPE',
-            'STATE': 'GPE',
-            'COUNTRY': 'GPE',
-            'POSTCODE': 'POSTCODE',
-            'STREET': 'STREET',
-            'BUILDING': 'BUILDING',
-            'GEOCOORD': 'GEO_COORD',
-            'SECADDRESS': 'SEC_ADDRESS',
+            'CITY': 'ADDRESS',
+            'STATE': 'ADDRESS',
+            'COUNTRY': 'ADDRESS',
+            'POSTCODE': 'ADDRESS',
+            'STREET': 'ADDRESS',
+            'BUILDING': 'ADDRESS',
+            'GEOCOORD': 'ADDRESS',
+            'SECADDRESS': 'ADDRESS',
 
             # Credential Data
             'PASS': 'PASSWORD',

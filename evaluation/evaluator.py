@@ -25,17 +25,19 @@ def __log_metrics(logger, metrics, cm):
     logger.info('')
 
     # TPR per label
-    logger.info("------- TPR per Label -------")
-    for label, tpr in metrics['tpr_per_label'].items():
-        label = label + ':\t\t\t' if len(label) < 15 else label + ':\t'
-        logger.info(f"{label}{tpr:.4f}")
-    logger.info('')
+    if 'tpr_per_label' in metrics:
+        logger.info("------- TPR per Label -------")
+        for label, tpr in metrics['tpr_per_label'].items():
+            label = label + ':\t\t\t' if len(label) < 15 else label + ':\t'
+            logger.info(f"{label}{tpr:.4f}")
+        logger.info('')
 
-    logger.info("------- AUCROC per Label -------")
-    for label, tpr in metrics['aucroc_per_label'].items():
-        label = label + ':\t\t\t' if len(label) < 15 else label + ':\t'
-        logger.info(f"{label}{tpr:.4f}")
-    logger.info('')
+    if 'aucroc_per_label' in metrics:
+        logger.info("------- AUCROC per Label -------")
+        for label, tpr in metrics['aucroc_per_label'].items():
+            label = label + ':\t\t\t' if len(label) < 15 else label + ':\t'
+            logger.info(f"{label}{tpr:.4f}")
+        logger.info('')
 
     # Confusion matrix
     logger.info("------ Confusion Matrix ------")
@@ -48,6 +50,32 @@ def __log_metrics(logger, metrics, cm):
     logger.info("TN: {} \tFP: {}".format(tn_str, fp_str))
     logger.info("FN: {} \tTP: {}".format(fn_str, tp_str))
     logger.info('')
+
+
+def get_sentence_results(y_pred, y_true, reduction='sum'):
+    y_scores = []
+    for sentence in y_pred:
+        sentence_scores = 0
+
+        for label, score in sentence:
+            sentence_scores += score
+        
+        if reduction == 'mean':
+            y_scores.append(sentence_scores / len(sentence))
+        elif reduction == 'sum':
+            y_scores.append(sentence_scores)
+
+    y_true_binary = []
+    for sentence in y_true:
+        sentence_label = 0
+        for label in sentence:
+            sentence_label = 1 if label != '0' else sentence_label
+        y_true_binary.append(sentence_label)
+
+    y_scores = np.array(y_scores)
+    y_true_binary = np.array(y_true_binary)
+
+    return y_scores, y_true_binary
 
 
 def flatten_data(y_pred, y_true):
@@ -94,6 +122,9 @@ def roc_auc_score_each_label(y_pred_labels, y_scores, y_true_labels):
     auc_scores = {}
     
     for label in unique_labels:
+        if label == '0':
+            continue
+
         y_true_idx = [i for i, l in enumerate(y_true_labels) if l == label]
         y_pred_idx = [i for i, l in enumerate(y_pred_labels) if l == label]
 
@@ -106,7 +137,7 @@ def roc_auc_score_each_label(y_pred_labels, y_scores, y_true_labels):
                 curr_y_scores.append(y_scores[i])
             
             elif i in y_true_idx:
-                curr_y_true.append(y_true_labels[i])
+                curr_y_true.append(0 if y_true_labels[i] == '0' else 1)
                 curr_y_scores.append(0)
 
             elif i in y_pred_idx:
@@ -130,24 +161,49 @@ def get_tpr_per_label(y_labels, y_pred):
       tpr_per_label[label_label] = tpr
     return tpr_per_label
 
-def get_metrics(y_pred, y_true, logger=None):
+def get_metrics_by_token(y_pred, y_true, logger=None):
     y_pred_labels, y_scores, y_true_labels, y_true_binary = flatten_data(y_pred, y_true)
 
     aucroc = roc_auc_score(y_true_binary, y_scores)
-    aucroc_per_label = roc_auc_score_each_label(y_pred_labels, y_scores, y_true_labels)
+    # aucroc_per_label = roc_auc_score_each_label(y_pred_labels, y_scores, y_true_labels)
 
     threshold = get_threshold_youden_index(y_true_binary, y_scores)
 
-    overall_result = get_overall_metrics(y_true_binary, y_scores > threshold)
+    overall_result = get_overall_metrics(y_true_binary, y_scores >= threshold)
 
-    results_per_label = get_tpr_per_label(y_true_labels, np.where(y_scores > threshold, y_pred_labels, '0'))
+    results_per_label = get_tpr_per_label(y_true_labels, np.where(y_scores >= threshold, y_pred_labels, '0'))
 
     result = {'AUCROC': aucroc, **overall_result, 'optimal_threshold': threshold}
     metrics_serializable = {k: float(v) for k, v in result.items()}
     metrics_serializable['tpr_per_label'] = results_per_label
-    metrics_serializable['aucroc_per_label'] = aucroc_per_label
+    # metrics_serializable['aucroc_per_label'] = aucroc_per_label
 
     if logger is not None:
+        logger.info('----- RESULTS BY TOKEN IN SENTENCES ------')
         __log_metrics(logger, metrics_serializable, confusion_matrix(y_true_binary, y_scores > threshold).ravel())
 
     return metrics_serializable
+
+def get_metrics_by_sentence(y_pred, y_true, logger=None):
+    y_scores, y_true_binary = get_sentence_results(y_pred, y_true)
+
+    aucroc = roc_auc_score(y_true_binary, y_scores)
+
+    threshold = get_threshold_youden_index(y_true_binary, y_scores)
+
+    overall_result = get_overall_metrics(y_true_binary, y_scores >= threshold)
+
+    result = {'AUCROC': aucroc, **overall_result, 'optimal_threshold': threshold}
+    metrics_serializable = {k: float(v) for k, v in result.items()}
+
+    if logger is not None:
+        logger.info('----- RESULTS BY SENTENCES ------')
+        __log_metrics(logger, metrics_serializable, confusion_matrix(y_true_binary, y_scores > threshold).ravel())
+
+    return metrics_serializable
+
+def get_metrics(y_pred, y_true, logger=None):
+    metrics_by_token = get_metrics_by_token(y_pred, y_true, logger)
+    metrics_by_sentence = get_metrics_by_sentence(y_pred, y_true, logger)
+
+    return { 'metrics_by_token': metrics_by_token, 'metrics_by_sentence': metrics_by_sentence }

@@ -1,0 +1,28 @@
+phase: train
+
+dataset:
+  name: Ai4privacyPii
+
+feature:
+  generator: GLiNER
+  labels:
+    [
+      "PERSON_NAME",
+      "PHONE_NUMBER",
+      "SOCIAL_NUMBER",
+      "DRIVER_LICENSE",
+      "ID_CARD",
+      "PASSPORT",
+      "CARD_ISSUER",
+      "BIRTHDATE",
+      "ADDRESS",
+      "PASSWORD",
+      "EMAIL",
+      "SEX",
+    ]
+
+model:
+  name: GLiNER
+  version: urchade/gliner_medium-v2.1
+
+  batch_size: 6

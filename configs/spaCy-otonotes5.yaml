@@ -1,0 +1,17 @@
+phase: train
+
+dataset:
+  name: Ontonotes5
+
+feature:
+  generator: spaCy
+  labels:
+    [
+      "PERSON_NAME",
+      "NATIONAL_ORIGIN RACE PROTECTED_GROUP",
+      "GEOPOLITICAL_ENTITIES",
+    ]
+
+model:
+  name: spaCy
+  version: en_core_web_trf

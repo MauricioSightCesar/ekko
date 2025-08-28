@@ -18,8 +18,8 @@ class CDRDataLoader(DatasetLoader):
         self.logger.info("Loading CDR.Corpus.v010516 dataset...")
 
         # Parse the XML file
-        phase = 'Train' if self.phase == 'train' else 'Test'
-        tree = ET.parse(f'../data/CDR_Data/CDR.Corpus.v010516/CDR_{phase}Set.BioC.xml')
+        phase = 'Training' if self.phase == 'train' else 'Test'
+        tree = ET.parse(f'./data/CDR_Data/CDR.Corpus.v010516/CDR_{phase}Set.BioC.xml')
         root = tree.getroot()
 
         output = []
@@ -60,10 +60,10 @@ class CDRDataLoader(DatasetLoader):
         """
         Filter out unwanted labels from the span_labels.
         """
-        use_labels = ['Chemical']
+        use_labels = ['Disease']
         mapping = self.entities_mapping()
 
-        return [[span[0], span[1], mapping[span[2]]] for span in ast.literal_eval(span_labels) if span[2] in use_labels]
+        return [[span[0], span[1], mapping[span[2]]] for span in span_labels if span[2] in use_labels]
     
     
     def entities_mapping(self) -> dict:

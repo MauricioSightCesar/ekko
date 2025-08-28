@@ -1,0 +1,16 @@
+phase: train
+
+dataset:
+  name: AFD
+
+feature:
+  generator: spaCy
+  labels:
+    [
+      "PERSON_NAME",
+      "GEOPOLITICAL_ENTITIES",
+    ]
+
+model:
+  name: spaCy
+  version: en_core_web_trf

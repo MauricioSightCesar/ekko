@@ -12,7 +12,7 @@ from utils.seed_all import seed_all
 
 def main(config=None, data=None):
     if config is None:
-        config = load_config(default_file_name="Gliner")
+        config = load_config(default_file_name="Gliner-ai4privacy")
 
     if 'run_id' not in config:
         run_id = get_run_id(config, [config['model']['name'], config['dataset']['name'], config['phase']])
@@ -56,18 +56,18 @@ def main(config=None, data=None):
     logger.debug("Initializing model...")
     model_factory = ModelFactory(config, logger)
     model = model_factory.create_model()
-    model = model.to(device)
+    model = model.compile(device)
 
     # 4. Execute
     logger.debug("Starting execution...")
-    y_pred, y_true = model.evaluate(data[:10], config)
+    y_pred, y_true = model.evaluate(data)
     metrics = get_metrics(y_pred, y_true, logger=logger)
     logger.info(f"Metrics: {metrics}")
     logger.info("Execution completed.")
 
     # 6. Save run artifacts
     logger.debug("Saving run artifacts...")
-    save_run_artifacts(run_dir, config, model=model, metrics=metrics)
+    save_run_artifacts(run_dir, config, metrics=metrics)
     logger.info("Run artifacts saved.")
     
     logger.info("Validation completed.")

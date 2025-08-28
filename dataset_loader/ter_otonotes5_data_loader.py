@@ -44,7 +44,7 @@ class Ontonotes5DataLoader(DatasetLoader):
         use_labels = ['PERSON', 'NORP', 'GPE']
         mapping = self.entities_mapping()
 
-        return [[span[0], span[1], mapping[span[2]]] for span in ast.literal_eval(span_labels) if span[2] not in use_labels]
+        return [[span[0], span[1], mapping[span[2]]] for span in span_labels if span[2] in use_labels]
     
     
     def entities_mapping(self) -> dict:
@@ -53,13 +53,13 @@ class Ontonotes5DataLoader(DatasetLoader):
             'PERSON': 'PERSON_NAME',
 
             # Racial, Ethnic Origin, Religious or Philosophical Beliefs
-            'NORP': 'NORP',
+            'NORP': 'NATIONAL_ORIGIN RACE PROTECTED_GROUP',
 
             # Location Data
-            'GPE': 'GPE',
+            'GPE': 'GEOPOLITICAL_ENTITIES',
         }
 
-    def bio_to_spans(tokens, tags):
+    def bio_to_spans(self, tokens, tags):
         label2id = {
             "O": 0, "B-CARDINAL": 1, "B-DATE": 2, "I-DATE": 3, "B-PERSON": 4, "I-PERSON": 5,
             "B-NORP": 6, "B-GPE": 7, "I-GPE": 8, "B-LAW": 9, "I-LAW": 10, "B-ORG": 11, "I-ORG": 12,
