@@ -17,7 +17,7 @@ class Conll2003DataLoader(DatasetLoader):
 
         # Log the loading process
         self.logger.info("Loading Conll2003 dataset...")
-        df_path = Path("/home/ccmr/workspace/cesar/ekko/data/conll2003/train.csv")
+        df_path = Path("data/conll2003/train.csv")
         if df_path.is_file():
             df = pd.read_csv(df_path)
             return df

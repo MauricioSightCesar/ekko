@@ -1,5 +1,3 @@
-import time
-import gc
 import pandas as pd
 from sklearn.metrics import confusion_matrix, roc_auc_score, roc_curve
 
@@ -204,7 +202,6 @@ def get_metrics_by_sentence(y_pred, y_true, logger=None):
     return metrics_serializable
 
 def get_metrics(y_pred, y_true, logger=None):
-    start_time = time.time()
     if logger is not None:
         logger.info("Starting metrics calculation...")
         logger.info(f"Processing {len(y_pred)} predictions and {len(y_true)} ground truth labels")

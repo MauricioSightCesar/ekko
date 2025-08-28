@@ -12,7 +12,7 @@ from utils.seed_all import seed_all
 
 def main(config=None, data=None):
     if config is None:
-        config = load_config(default_file_name="LSTMCRF-ai4privacy")
+        config = load_config(default_file_name="Gliner-ai4privacy")
 
     if 'run_id' not in config:
         run_id = get_run_id(config, [config['model']['name'], config['dataset']['name'], config['phase']])
@@ -74,7 +74,7 @@ def main(config=None, data=None):
     logger.debug("Saving run artifacts...")
     save_run_artifacts(run_dir, config, metrics=metrics)
     logger.info("Run artifacts saved.")
-
+    
     logger.info("Validation completed.")
 
     del data, model, logger
