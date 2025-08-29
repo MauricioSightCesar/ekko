@@ -1,0 +1,67 @@
+{
+    "mapping": {
+    "PERSON_NAME": "PERSON_NAME",
+    "GIVENNAME1": "PERSON_NAME",
+    "GIVENNAME2": "PERSON_NAME",
+    "LASTNAME1": "PERSON_NAME",
+    "LASTNAME2": "PERSON_NAME",
+    "LASTNAME3": "PERSON_NAME",
+    "TITLE": "PERSON_NAME",
+    "USERNAME": "PERSON_NAME",
+    "PERSON_TITLE": "PERSON_NAME",
+    
+    "BOD": "0",
+    "BIRTHDATE": "0",
+    "DATE": "0",
+    
+    "CITY": "LOCATION",
+    "STATE": "LOCATION", 
+    "COUNTRY": "LOCATION",
+    "POSTCODE": "LOCATION",
+    "STREET": "LOCATION",
+    "BUILDING": "LOCATION",
+    "BUILDING_NUMBER": "LOCATION",
+    "GEOCOORD": "LOCATION",
+    "GEO_COORD": "LOCATION",
+    "SECADDRESS": "LOCATION",
+    "SEC_ADDRESS": "LOCATION",
+    "LOCATION": "LOCATION",
+    "ADDRESS": "LOCATION",
+
+    "ORGANIZATION": "ORGANIZATION",
+    "ORG": "ORGANIZATION",
+    "CARD_ISSUER": "ORGANIZATION",
+
+    "GEOPOLITICAL_ENTITIES": "LOCATION",
+    "GPE": "LOCATION",
+
+    "NATIONAL_ORIGIN RACE PROTECTED_GROUP": "0",
+    "NATIONAL_ORIGIN_RACE_PROTECTED_GROUP": "0",
+    "NORP": "0",
+    
+    "MISC": "MISC",
+    "MISCELLANEOUS": "MISC",
+    "OTHER": "MISC"
+  },
+  "dataset_compatibility": {
+    "Ai4privacyPii": [
+      "PERSON_NAME", "LOCATION", "0", "ORGANIZATION"
+    ],
+    "Conll2003": [
+      "PERSON_NAME", "LOCATION", "ORGANIZATION", "MISC", "0"
+    ],
+    "Ontonotes5": [
+      "PERSON_NAME", "LOCATION", "0", "ORGANIZATION"
+    ],
+    "CDR": [
+      "MISC", "0"
+    ],
+    "AFD": [
+      "PERSON_NAME", "LOCATION", "ORGANIZATION", "0"
+    ],
+    "LeNERbr": [
+      "PERSON_NAME", "LOCATION", "0"
+    ]
+  },
+  "unmapped_fallback": "0"
+}

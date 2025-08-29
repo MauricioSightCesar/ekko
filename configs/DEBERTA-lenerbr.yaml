@@ -1,0 +1,14 @@
+phase: train
+pretrained_model: geckos/deberta-base-fine-tuned-ner
+device: cpu  # Use GPU for maximum performance
+
+dataset:
+  name: LeNERbr
+  sample_size: null  # Set to null for full dataset, or specify number for sampling (e.g., 5000)
+
+feature:
+  generator: DeBERTa
+  labels: ['PERSON_NAME', 'LOCATION', 'ORGANIZATION']
+
+model:
+  name: DeBERTa

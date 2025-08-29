@@ -17,7 +17,9 @@ class FeatureGeneratorFactory:
         elif self.feature_generator_name == 'LSTMCRF':
             from feature_generator.lstmcrf_feature_extractor import LSTMCRFFeatureGenerator
             return LSTMCRFFeatureGenerator(self.config, logger, dataset_loader)
-
+        elif self.feature_generator_name == 'DeBERTa':
+            from feature_generator.deberta_feature_extractor import DebertaFeatureGenerator
+            return DebertaFeatureGenerator(self.config, logger, dataset_loader)
         else:
             raise ValueError(
                 f"Unsupported feature generator: {self.feature_generator_name}")

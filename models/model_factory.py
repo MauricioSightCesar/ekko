@@ -21,6 +21,9 @@ class ModelFactory:
             device = self.config.get('device', 'cpu')
             model_name = self.model_config.get('pretrained_model', "flair/ner-english-ontonotes")
             return PretrainedLSTMCRFFlairModel(device=device, model_name=model_name, logger=self.logger)
-
+        elif self.model_name == "DeBERTa":
+            device = self.config.get('device', 'cpu')
+            model_name = self.model_config.get('pretrained_model', "geckos/deberta-base-fine-tuned-ner")
+            return PretrainedDebertaTokenClassifierModel(device=device, model_name=model_name, logger=self.logger)
         else:
             raise ValueError(f"Unknown model: {self.model_name}")
